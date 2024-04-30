@@ -21,6 +21,16 @@ class StudentController extends Controller
             'students' => Student::orderBy('nama', 'desc')->get(),
         ]);
     }
+    /**
+     * Display a listing of the resource.
+     */
+    public function report()
+    {
+        return view('dashboard.student.report', [
+            'active' => 'Laporan',
+            'students' => Student::orderBy('nama', 'desc')->get(),
+        ]);
+    }
 
     /**
      * @return \Illuminate\Support\Collection

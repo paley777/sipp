@@ -9,6 +9,7 @@
     <link rel="icon" href="{{ url('/assets/logo.png') }}" />
     <!-- App CSS -->
     <link id="theme-style" rel="stylesheet" href="{{ URL::asset('/css/portal.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body class="app" style="font-family: Manrope, sans-serif;">

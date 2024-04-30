@@ -14,7 +14,8 @@
                         </a>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb responsive-small">
-                                <li class="breadcrumb-item"><a href="/dashboard">Sistem Informasi Poin Pelanggaran dan Pengarsipan Dokumen SMAN 4 Kota Bengkulu</a></li>
+                                <li class="breadcrumb-item"><a href="/dashboard">Sistem Informasi Poin Pelanggaran dan
+                                        Pengarsipan Dokumen SMAN 4 Kota Bengkulu</a></li>
                             </ol>
                         </nav>
                     </div>
@@ -45,10 +46,6 @@
                                     </g>
                                 </svg>{{ Auth::user()->role }}</a>
                             <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-                                <li><a class="dropdown-item" href="/dashboard/my-profile">Akun Saya</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
                                 <form action="/dashboard/logout" method="post">
                                     @csrf
                                     <li><button type="submit" class="dropdown-item">
@@ -117,57 +114,64 @@
                         </a><!--//nav-link-->
                         <div id="submenu-3" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
                             <ul class="submenu-list list-unstyled">
-                                <li class="submenu-item"><a class="submenu-link"
-                                        href="/dashboard/student">Siswa</a></li>
+                                @if (Auth::user()->role == 'Administrator')
+                                    <li class="submenu-item"><a class="submenu-link"
+                                            href="/dashboard/student">Siswa</a>
+                                    </li>
+                                @endif
                                 <li class="submenu-item"><a class="submenu-link"
                                         href="/dashboard/fault">Pelanggaran</a>
                                 </li>
-                                <li class="submenu-item"><a class="submenu-link"
-                                        href="/dashboard/regis-pelanggan">Arsip</a>
+                                <li class="submenu-item"><a class="submenu-link" href="/dashboard/archive">Arsip</a>
                                 </li>
-                                <li class="submenu-item"><a class="submenu-link"
-                                        href="/dashboard/regis-pelanggan">Pengguna Sistem</a>
-                                </li>
+                                @if (Auth::user()->role == 'Administrator')
+                                    <li class="submenu-item"><a class="submenu-link" href="/dashboard/user">Pengguna
+                                            Sistem</a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </li><!--//nav-item-->
-                    <li class="nav-item has-submenu">
-                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link {{ $active === 'laporan' ? 'active' : '' }} submenu-toggle" href="#"
-                            data-bs-toggle="collapse" data-bs-target="#submenu-2" aria-expanded="false"
-                            aria-controls="submenu-1">
-                            <span class="nav-icon">
-                                <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-folder"
-                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z" />
-                                    <path fill-rule="evenodd"
-                                        d="M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z" />
-                                </svg>
-                            </span>
-                            <span class="nav-link-text">Laporan</span>
-                            <span class="submenu-arrow">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down"
-                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                                </svg>
-                            </span><!--//submenu-arrow-->
-                        </a><!--//nav-link-->
-                        <div id="submenu-2" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
-                            <ul class="submenu-list list-unstyled">
-                                <li class="submenu-item"><a class="submenu-link"
-                                        href="/dashboard/report/barang-masuk">Siswa</a></li>
-                                <li class="submenu-item"><a class="submenu-link"
-                                        href="/dashboard/report/barang-keluar">Pelanggaran</a>
-                                </li>
-                                <li class="submenu-item"><a class="submenu-link"
-                                        href="/dashboard/report/stok-barang">Arsip</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li><!--//nav-item-->
+                    @if (Auth::user()->role == 'Administrator')
+                        <li class="nav-item has-submenu">
+                            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                            <a class="nav-link {{ $active === 'Laporan' ? 'active' : '' }} submenu-toggle"
+                                href="#" data-bs-toggle="collapse" data-bs-target="#submenu-2"
+                                aria-expanded="false" aria-controls="submenu-1">
+                                <span class="nav-icon">
+                                    <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-folder"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z" />
+                                        <path fill-rule="evenodd"
+                                            d="M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Laporan</span>
+                                <span class="submenu-arrow">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16"
+                                        class="bi bi-chevron-down" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                    </svg>
+                                </span><!--//submenu-arrow-->
+                            </a><!--//nav-link-->
+                            <div id="submenu-2" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
+                                <ul class="submenu-list list-unstyled">
+                                    <li class="submenu-item"><a class="submenu-link"
+                                            href="/dashboard/report-student">Siswa</a></li>
+                                    <li class="submenu-item"><a class="submenu-link"
+                                            href="/dashboard/report-fault">Pelanggaran</a>
+                                    </li>
+                                    <li class="submenu-item"><a class="submenu-link"
+                                            href="/dashboard/report-archive">Arsip</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li><!--//nav-item-->
+                    @endif
                 </ul><!--//app-menu-->
             </nav><!--//app-nav-->
             <div class="app-sidepanel-footer">

@@ -19,6 +19,16 @@ class FaultController extends Controller
             'faults' => Fault::orderBy('nama', 'desc')->get(),
         ]);
     }
+    /**
+     * Display a listing of the resource.
+     */
+     public function report()
+    {
+        return view('dashboard.fault.report', [
+            'active' => 'Laporan',
+            'faults' => Fault::orderBy('nama', 'desc')->get(),
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -5,6 +5,8 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\FaultController;
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,11 @@ Route::middleware('auth')
         Route::get('/', [DashboardController::class, 'index']);
         Route::resource('/student', StudentController::class);
         Route::resource('/fault', FaultController::class);
+        Route::resource('/archive', ArchiveController::class);
+        Route::resource('/user', UserController::class);
         Route::post('/student/import', [StudentController::class, 'import']);
         Route::post('/logout', [DashboardController::class, 'logout']);
+        Route::get('/report-student', [StudentController::class, 'report']);
+        Route::get('/report-fault', [FaultController::class, 'report']);
+        Route::get('/report-archive', [ArchiveController::class, 'report']);
     });
