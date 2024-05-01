@@ -114,11 +114,8 @@
                         </a><!--//nav-link-->
                         <div id="submenu-3" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
                             <ul class="submenu-list list-unstyled">
-                                @if (Auth::user()->role == 'Administrator')
-                                    <li class="submenu-item"><a class="submenu-link"
-                                            href="/dashboard/student">Siswa</a>
-                                    </li>
-                                @endif
+                                <li class="submenu-item"><a class="submenu-link" href="/dashboard/student">Siswa</a>
+                                </li>
                                 <li class="submenu-item"><a class="submenu-link"
                                         href="/dashboard/fault">Pelanggaran</a>
                                 </li>
