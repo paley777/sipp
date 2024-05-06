@@ -85,11 +85,29 @@
                             <span class="nav-link-text">Beranda</span>
                         </a><!--//nav-link-->
                     </li><!--//nav-item-->
+                    <li class="nav-item">
+                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                        <a class="nav-link {{ $active === 'Scoreboard' ? 'active' : '' }}" href="/dashboard/scoreboard">
+                            <span class="nav-icon">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door"
+                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M7,10H9A1,1,0,0,0,9,8H7a1,1,0,0,0,0,2ZM21,4H13V3a1,1,0,0,0-2,0V4H3A1,1,0,0,0,2,5V15a3,3,0,0,0,3,3H9.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L11,19.41V21a1,1,0,0,0,2,0V19.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L14.41,18H19a3,3,0,0,0,3-3V5A1,1,0,0,0,21,4ZM20,15a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V6H20ZM7,14h6a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="nav-link-text">Scoreboard</span>
+                        </a><!--//nav-link-->
+                    </li><!--//nav-item-->
                     <li class="nav-item has-submenu">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link {{ $active === 'Manajemen' ? 'active' : '' }} submenu-toggle" href="#"
-                            data-bs-toggle="collapse" data-bs-target="#submenu-3" aria-expanded="false"
-                            aria-controls="submenu-3">
+                        <a class="nav-link {{ $active === 'Manajemen' ? 'active' : '' }} submenu-toggle"
+                            href="#" data-bs-toggle="collapse" data-bs-target="#submenu-3"
+                            aria-expanded="false" aria-controls="submenu-3">
                             <span class="nav-icon">
                                 <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
@@ -122,6 +140,9 @@
                                 <li class="submenu-item"><a class="submenu-link" href="/dashboard/archive">Arsip</a>
                                 </li>
                                 @if (Auth::user()->role == 'Administrator')
+                                    <li class="submenu-item"><a class="submenu-link" href="/dashboard/rule">Peraturan
+                                            Siswa</a>
+                                    </li>
                                     <li class="submenu-item"><a class="submenu-link" href="/dashboard/user">Pengguna
                                             Sistem</a>
                                     </li>

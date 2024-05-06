@@ -84,6 +84,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        User::destroy($user->id);
+        return redirect('/dashboard/user')->with('success', 'Pengguna telah dihapus!');
     }
 }

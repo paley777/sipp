@@ -28,8 +28,7 @@ class UpdateFaultRequest extends FormRequest
             'nama_ortu' => 'required',
             'alamat' => 'required',
             'no_hp' => 'required',
-            'pelanggaran' => 'required',
-            'poin' => 'required',
+            'rule_id' => 'required',
         ];
     }
 }

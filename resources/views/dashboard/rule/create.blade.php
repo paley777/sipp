@@ -1,16 +1,13 @@
 @extends('templates.layouts.main')
 
 @section('container')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
-        integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <div class="app-wrapper">
         <div class="app-content pt-3 p-md-3 p-lg-4">
             <div class="container-xl">
                 <div class="row g-3 mb-4 align-items-center justify-content-between">
                     <div class="col-auto">
-                        <h1 class="app-page-title mb-0">Manajemen Pelanggaran</h1>
+                        <h1 class="app-page-title mb-0">Manajemen Peraturan Siswa</h1>
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -38,7 +35,7 @@
                             </div><!--//col-->
                             <div class="col-12 col-lg-auto text-center text-lg-start">
                                 <div class="notification-type mb-2"><span class="badge bg-primary">Olah Data</span></div>
-                                <h4 class="notification-title mb-1">Formulir Pelanggaran Baru</h4>
+                                <h4 class="notification-title mb-1">Formulir Peraturan Baru</h4>
                                 <ul class="notification-meta list-inline mb-0">
                                     <li class="list-inline-item">Create</li>
                                     <li class="list-inline-item">|</li>
@@ -49,51 +46,24 @@
                         </div><!--//row-->
                     </div><!--//app-card-header-->
                     <div class="app-card-body p-4">
-                        <form class="row g-2" method="post" action="/dashboard/fault">
+                        <form class="row g-2" method="post" action="/dashboard/rule">
                             @csrf
-                            <div class="col-md-12 position-relative">
-                                <label for="studentSelect" class="form-label">Siswa<span
+                            <div class="col-md-6 position-relative">
+                                <label for="validationCustom01" class="form-label ">Nama Pelanggaran<span
                                         class="text-danger">*</span></label>
-                                <select id="studentSelect" class="form-control" name="student_id" required>
-                                    @foreach ($students as $student)
-                                        <option value="{{ $student->id }}">{{ $student->nama }} | {{ $student->kelas }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" id="validationCustom01" class="form-control" name="pelanggaran"
+                                    placeholder="Isi Nama Pelanggaran" required>
                             </div>
                             <div class="col-md-6 position-relative">
-                                <label for="validationCustom01" class="form-label">NISN<span
+                                <label for="validationCustom01" class="form-label">Point<span
                                         class="text-danger">*</span></label>
-                                <input type="text" id="validationCustom01" class="form-control" name="nisn"
-                                    placeholder="Masukkan NISN siswa..." required>
-                            </div>
-                            <div class="col-md-6 position-relative">
-                                <label for="validationCustom01" class="form-label">Nama Orang Tua<span
-                                        class="text-danger">*</span></label>
-                                <input type="text" id="validationCustom01" class="form-control" name="nama_ortu"
-                                    placeholder="Masukkan nama orang tua siswa..." required>
-                            </div>
-                            <div class="col-md-6 position-relative">
-                                <label for="validationCustom01" class="form-label">Alamat<span
-                                        class="text-danger">*</span></label>
-                                <input type="text" id="validationCustom01" class="form-control" name="alamat"
-                                    placeholder="Masukkan alamat siswa..." required>
-                            </div>
-                            <div class="col-md-6 position-relative">
-                                <label for="validationCustom01" class="form-label">No. HP<span
-                                        class="text-danger">*</span></label>
-                                <input type="text" id="validationCustom01" class="form-control" name="no_hp"
-                                    placeholder="Masukkan nomor handphone siswa..." required>
+                                <input type="number" id="validationCustom01" class="form-control" name="point" required>
                             </div>
                             <div class="col-md-12 position-relative">
-                                <label for="studentSelect" class="form-label">Pelanggaran<span
+                                <label for="validationCustom01" class="form-label">Sanksi<span
                                         class="text-danger">*</span></label>
-                                <select id="ruleSelect" class="form-control" name="rule_id" required>
-                                    @foreach ($rules as $rule)
-                                        <option value="{{ $rule->id }}">{{ $rule->pelanggaran }} | Poin {{ $rule->point }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <textarea id="pelanggaran" class="form-control" name="sanksi" placeholder="Masukkan bentuk sanksi..."
+                                    style="height: 100px" required></textarea>
                             </div>
                             <p>
                                 (Wajib terisi untuk kolom dengan tanda "<span class="text-danger">*</span>").
@@ -107,8 +77,7 @@
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
                                     <path d="M20 4L3 9.31372L10.5 13.5M20 4L14.5 21L10.5 13.5M20 4L10.5 13.5"
-                                        stroke="#ffffff" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
+                                        stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     </path>
                                 </g>
                             </svg> Simpan Data
@@ -119,22 +88,5 @@
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
-        integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function() {
-            $('#studentSelect').select2({
-                placeholder: 'Pilih Siswa',
-                allowClear: true
-            });
-            $('#ruleSelect').select2({
-                placeholder: 'Pilih Pelanggaran',
-                allowClear: true
-            });
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 @endsection

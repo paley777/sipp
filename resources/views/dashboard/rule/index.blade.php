@@ -8,13 +8,13 @@
 
                 <div class="row g-3 mb-4 align-items-center justify-content-between">
                     <div class="col-auto">
-                        <h1 class="app-page-title mb-0">Manajemen Pelanggaran</h1>
+                        <h1 class="app-page-title mb-0">Manajemen Peraturan Siswa</h1>
                     </div>
                     <div class="col-auto">
                         <div class="page-utilities">
                             <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                                 <div class="col-auto">
-                                    <a class="btn app-btn-primary" href="/dashboard/fault/create">
+                                    <a class="btn app-btn-primary" href="/dashboard/rule/create">
                                         <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -26,7 +26,7 @@
                                                     fill="#ffffff"></path>
                                             </g>
                                         </svg>
-                                        Tambah Pelanggaran Baru
+                                        Tambah Peraturan Baru
                                     </a>
                                 </div>
                             </div><!--//row-->
@@ -57,35 +57,21 @@
                                         <thead>
                                             <tr>
                                                 <th class="cell">No.</th>
-                                                <th class="cell">Nama</th>
-                                                <th class="cell">NISN</th>
-                                                <th class="cell">Kelas</th>
-                                                <th class="cell">Nama Orang Tua</th>
-                                                <th class="cell">Alamat</th>
-                                                <th class="cell">No.HP</th>
                                                 <th class="cell">Pelanggaran</th>
-                                                <th class="cell">Poin</th>
+                                                <th class="cell">Point</th>
+                                                <th class="cell">Sanksi</th>
                                                 <th class="cell">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($faults as $key => $fault)
+                                            @foreach ($rules as $rule)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $fault->nama }}</td>
-                                                    <td>{{ $fault->nisn }}</td>
-                                                    <td>{{ $fault->kelas }}</td>
-                                                    <td>{{ $fault->nama_ortu }}</td>
-                                                    <td>{{ $fault->alamat }}</td>
-                                                    <td>{{ $fault->no_hp }}</td>
-                                                    <td>{{ $fault->pelanggaran }}</td>
+                                                    <td>{{ $rule->pelanggaran }}</td>
+                                                    <td>{{ $rule->point }}</td>
+                                                    <td>{{ $rule->sanksi }}</td>
                                                     <td>
-                                                        <h6><span
-                                                                class="badge text-bg-danger text-white">+{{ $fault->poin }}
-                                                                Poin</span></h6>
-                                                    </td>
-                                                    <td>
-                                                        <a href="/dashboard/fault/{{ $fault->id }}/edit"
+                                                        <a href="/dashboard/rule/{{ $rule->id }}/edit"
                                                             class="btn btn-sm btn-warning"><svg width="16px"
                                                                 height="16px" viewBox="0 0 24 24"
                                                                 xmlns="http://www.w3.org/2000/svg" fill="#000000">
@@ -113,29 +99,26 @@
                                                                     </g>
                                                                 </g>
                                                             </svg> Ubah</a>
-                                                        @if (Auth::user()->role == 'Administrator')
-                                                            <form action="/dashboard/fault/{{ $fault->id }}"
-                                                                method="post" class="d-inline">
-                                                                @method('delete')
-                                                                @csrf
-                                                                <button class="btn btn-sm btn-danger text-white"
-                                                                    onclick="return confirm('Anda yakin untuk menghapus data ini?')">
-                                                                    <svg width="16px" height="16px"
-                                                                        viewBox="0 0 1024 1024"
-                                                                        xmlns="http://www.w3.org/2000/svg" fill="#000000">
-                                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                                            stroke-linejoin="round">
-                                                                        </g>
-                                                                        <g id="SVGRepo_iconCarrier">
-                                                                            <path fill="#ffffff"
-                                                                                d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z">
-                                                                            </path>
-                                                                        </g>
-                                                                    </svg> Hapus
-                                                                </button>
-                                                            </form>
-                                                        @endif
+                                                        <form action="/dashboard/rule/{{ $rule->id }}" method="post"
+                                                            class="d-inline">
+                                                            @method('delete')
+                                                            @csrf
+                                                            <button class="btn btn-sm btn-danger text-white"
+                                                                onclick="return confirm('Anda yakin untuk menghapus data ini?')">
+                                                                <svg width="16px" height="16px" viewBox="0 0 1024 1024"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                                        stroke-linejoin="round">
+                                                                    </g>
+                                                                    <g id="SVGRepo_iconCarrier">
+                                                                        <path fill="#ffffff"
+                                                                            d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z">
+                                                                        </path>
+                                                                    </g>
+                                                                </svg> Hapus
+                                                            </button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             @endforeach

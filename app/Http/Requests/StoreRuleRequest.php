@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreFaultRequest extends FormRequest
+class StoreRuleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,9 @@ class StoreFaultRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required',
-            'nisn' => 'required',
-            'nama_ortu' => 'required',
-            'alamat' => 'required',
-            'no_hp' => 'required',
-            'rule_id' => 'required',
+            'pelanggaran' => 'required',
+            'point' => 'required',
+            'sanksi' => 'required',
         ];
     }
 }

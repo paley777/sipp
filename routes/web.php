@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\FaultController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +29,12 @@ Route::middleware('auth')
     ->prefix('/dashboard')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index']);
+        Route::get('/scoreboard', [DashboardController::class, 'scoreboard']);
         Route::resource('/student', StudentController::class);
         Route::resource('/fault', FaultController::class);
         Route::resource('/archive', ArchiveController::class);
         Route::resource('/user', UserController::class);
+        Route::resource('/rule', RuleController::class);
         Route::post('/student/import', [StudentController::class, 'import']);
         Route::post('/logout', [DashboardController::class, 'logout']);
         Route::get('/report-student', [StudentController::class, 'report']);

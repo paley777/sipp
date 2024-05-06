@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fault;
 use App\Models\Student;
+use App\Models\Rule;
 use App\Http\Requests\StoreFaultRequest;
 use App\Http\Requests\UpdateFaultRequest;
 
@@ -22,7 +23,7 @@ class FaultController extends Controller
     /**
      * Display a listing of the resource.
      */
-     public function report()
+    public function report()
     {
         return view('dashboard.fault.report', [
             'active' => 'Laporan',
@@ -38,6 +39,7 @@ class FaultController extends Controller
         return view('dashboard.fault.create', [
             'active' => 'Manajemen',
             'students' => Student::get(),
+            'rules' => Rule::get(),
         ]);
     }
 
@@ -47,6 +49,7 @@ class FaultController extends Controller
     public function store(StoreFaultRequest $request)
     {
         $student = Student::findOrFail($request->student_id);
+        $rule = Rule::findOrFail($request->rule_id);
         $validated = $request->validated();
         Fault::create([
             'nama' => $student->nama,
@@ -55,8 +58,8 @@ class FaultController extends Controller
             'nama_ortu' => $validated['nama_ortu'],
             'alamat' => $validated['alamat'],
             'no_hp' => $validated['no_hp'],
-            'pelanggaran' => $validated['pelanggaran'],
-            'poin' => $validated['poin'],
+            'pelanggaran' => $rule->pelanggaran,
+            'poin' => $rule->point,
         ]);
         return redirect('/dashboard/fault')->with('success', 'Pelanggaran telah ditambahkan!');
     }
@@ -77,6 +80,7 @@ class FaultController extends Controller
         return view('dashboard.fault.edit', [
             'active' => 'Manajemen',
             'students' => Student::get(),
+            'rules' => Rule::get(),
             'fault' => $fault,
         ]);
     }
@@ -88,6 +92,7 @@ class FaultController extends Controller
     {
         $validated = $request->validated();
         $student = Student::findOrFail($request->student_id);
+        $rule = Rule::findOrFail($request->rule_id);
         $fault->update([
             'nama' => $student->nama,
             'kelas' => $student->kelas,
@@ -95,8 +100,8 @@ class FaultController extends Controller
             'nama_ortu' => $validated['nama_ortu'],
             'alamat' => $validated['alamat'],
             'no_hp' => $validated['no_hp'],
-            'pelanggaran' => $validated['pelanggaran'],
-            'poin' => $validated['poin'],
+            'pelanggaran' => $rule->pelanggaran,
+            'poin' => $rule->point,
         ]);
         return redirect('/dashboard/fault')->with('success', 'Pelanggaran telah diubah!');
     }

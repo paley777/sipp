@@ -22,6 +22,14 @@ class DashboardController extends Controller
             'count_user' => User::count(),
         ]);
     }
+    //Scoreboard
+    public function scoreboard()
+    {
+        return view('dashboard.scoreboard', [
+            'active' => 'Scoreboard',
+            'faults' => Fault::select('nama', 'kelas', \DB::raw('SUM(poin) as total_poin'))->groupBy('nama', 'kelas')->get(),
+        ]);
+    }
     //logout
     /**
      * Handle an logout attempt.
