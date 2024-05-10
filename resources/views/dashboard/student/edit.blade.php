@@ -1,6 +1,9 @@
 @extends('templates.layouts.main')
 
 @section('container')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+        integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <div class="app-wrapper">
         <div class="app-content pt-3 p-md-3 p-lg-4">
@@ -56,10 +59,15 @@
                                     value="{{ old('nama', $student->nama) }}" placeholder="Isi Nama Siswa" required>
                             </div>
                             <div class="col-md-6 position-relative">
-                                <label for="validationCustom01" class="form-label">Kelas<span
+                                <label for="studentSelect" class="form-label">Kelas<span
                                         class="text-danger">*</span></label>
-                                <input type="text" id="validationCustom01" class="form-control" name="kelas"
-                                    value="{{ old('kelas', $student->kelas) }}" placeholder="Contoh: X IPA 1" required>
+                                <select id="classSelect" class="form-control" name="kelas" required>
+                                    @foreach ($classes as $class)
+                                        <option value="{{ $class->nama }}"
+                                            {{ $class->nama == $student->kelas ? 'selected' : '' }}>{{ $class->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <label for="validationCustom01" class="form-label">Jenis Kelamin<span
@@ -99,4 +107,15 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+        integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            $('#classSelect').select2({
+                placeholder: 'Pilih Kelas',
+                allowClear: true
+            });
+        });
+    </script>
 @endsection

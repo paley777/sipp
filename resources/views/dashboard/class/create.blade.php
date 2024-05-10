@@ -1,16 +1,13 @@
 @extends('templates.layouts.main')
 
 @section('container')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
-        integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <div class="app-wrapper">
         <div class="app-content pt-3 p-md-3 p-lg-4">
             <div class="container-xl">
                 <div class="row g-3 mb-4 align-items-center justify-content-between">
                     <div class="col-auto">
-                        <h1 class="app-page-title mb-0">Manajemen Siswa</h1>
+                        <h1 class="app-page-title mb-0">Manajemen Kelas</h1>
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -38,7 +35,7 @@
                             </div><!--//col-->
                             <div class="col-12 col-lg-auto text-center text-lg-start">
                                 <div class="notification-type mb-2"><span class="badge bg-primary">Olah Data</span></div>
-                                <h4 class="notification-title mb-1">Formulir Siswa Baru</h4>
+                                <h4 class="notification-title mb-1">Formulir Kelas Baru</h4>
                                 <ul class="notification-meta list-inline mb-0">
                                     <li class="list-inline-item">Create</li>
                                     <li class="list-inline-item">|</li>
@@ -49,34 +46,13 @@
                         </div><!--//row-->
                     </div><!--//app-card-header-->
                     <div class="app-card-body p-4">
-                        <form class="row g-2" method="post" action="/dashboard/student">
+                        <form class="row g-2" method="post" action="/dashboard/class">
                             @csrf
-                            <div class="col-md-6 position-relative">
-                                <label for="validationCustom01" class="form-label ">Nama<span
+                            <div class="col-md-12 position-relative">
+                                <label for="validationCustom01" class="form-label ">Nama Kelas<span
                                         class="text-danger">*</span></label>
                                 <input type="text" id="validationCustom01" class="form-control" name="nama"
-                                    placeholder="Isi Nama Siswa" required>
-                            </div>
-                            <div class="col-md-6 position-relative">
-                                <label for="studentSelect" class="form-label">Kelas<span
-                                        class="text-danger">*</span></label>
-                                <select id="classSelect" class="form-control" name="kelas" required>
-                                    @foreach ($classes as $class)
-                                        <option value="{{ $class->nama }}">{{ $class->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6 position-relative">
-                                <label for="validationCustom01" class="form-label">Jenis Kelamin<span
-                                        class="text-danger">*</span></label>
-                                <div>
-                                    <input type="radio" id="laki-laki" name="jenis_kelamin" value="L" required>
-                                    <label for="laki-laki">Laki-laki</label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="perempuan" name="jenis_kelamin" value="P" required>
-                                    <label for="perempuan">Perempuan</label>
-                                </div>
+                                    placeholder="Isi Nama Kelas" required>
                             </div>
                             <p>
                                 (Wajib terisi untuk kolom dengan tanda "<span class="text-danger">*</span>").
@@ -102,15 +78,4 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
-        integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function() {
-            $('#classSelect').select2({
-                placeholder: 'Pilih Kelas',
-                allowClear: true
-            });
-        });
-    </script>
 @endsection

@@ -8,6 +8,7 @@ use App\Http\Controllers\FaultController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RuleController;
+use App\Http\Controllers\KelasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::middleware('auth')
         Route::resource('/archive', ArchiveController::class);
         Route::resource('/user', UserController::class);
         Route::resource('/rule', RuleController::class);
+        Route::resource('/class', KelasController::class);
         Route::post('/student/import', [StudentController::class, 'import']);
         Route::post('/logout', [DashboardController::class, 'logout']);
         Route::get('/report-student', [StudentController::class, 'report']);

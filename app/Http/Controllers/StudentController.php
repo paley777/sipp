@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Kelas;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Imports\StudentImport;
@@ -48,6 +49,7 @@ class StudentController extends Controller
     {
         return view('dashboard.student.create', [
             'active' => 'Manajemen',
+            'classes' => Kelas::get(),
         ]);
     }
 
@@ -77,6 +79,7 @@ class StudentController extends Controller
         return view('dashboard.student.edit', [
             'active' => 'Manajemen',
             'student' => $student,
+            'classes' => Kelas::get(),
         ]);
     }
 
