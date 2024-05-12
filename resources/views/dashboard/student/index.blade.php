@@ -42,6 +42,18 @@
                                         </a>
                                     </div>
                                 @endif
+                                <div class="col-auto">
+                                    <select id="select_kelas" class="form-select">
+                                        <option value="">-- Pilih Kelas --</option>
+                                        @foreach ($kelas as $k)
+                                            <option value="{{ $k->nama }}">{{ $k->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <!-- Tombol untuk Memilih Siswa Berdasarkan Kelas -->
+                                    <a href="#" id="btn_pilih_siswa" class="btn btn-primary text-white">Cari Berdasarkan Kelas</a>
+                                </div>
                             </div><!--//row-->
                         </div><!--//table-utilities-->
                     </div><!--//col-auto-->
@@ -51,6 +63,13 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
+                    <!-- Tambahkan di atas tabel siswa -->
+                    @if (isset($selected_kelas))
+                        <div class="alert alert-info" role="alert">
+                            Menampilkan siswa untuk kelas: {{ $selected_kelas }}
+                        </div>
+                    @endif
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -126,7 +145,8 @@
                                                                         viewBox="0 0 1024 1024"
                                                                         xmlns="http://www.w3.org/2000/svg" fill="#000000">
                                                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                                        <g id="SVGRepo_tracerCarrier"
+                                                                            stroke-linecap="round"
                                                                             stroke-linejoin="round">
                                                                         </g>
                                                                         <g id="SVGRepo_iconCarrier">
@@ -195,6 +215,23 @@
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var selectKelas = document.getElementById('select_kelas');
+            var btnPilihSiswa = document.getElementById('btn_pilih_siswa');
+
+            btnPilihSiswa.addEventListener('click', function() {
+                var kelas = selectKelas.value;
+                if (kelas) {
+                    // Redirect ke route yang sesuai dengan kelas yang dipilih
+                    window.location.href = '/dashboard/student/select/' + kelas;
+                } else {
+                    // Jika tidak ada kelas yang dipilih, kembalikan ke halaman dengan semua data siswa
+                    window.location.href = '/dashboard/student';
+                }
+            });
         });
     </script>
 

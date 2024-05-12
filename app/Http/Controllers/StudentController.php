@@ -20,6 +20,17 @@ class StudentController extends Controller
         return view('dashboard.student.index', [
             'active' => 'Manajemen',
             'students' => Student::orderBy('nama', 'desc')->get(),
+            'kelas' => Kelas::orderBy('nama')->get(),
+        ]);
+    }
+    public function selectByKelas($kelas)
+    {
+        $students = Student::where('kelas', $kelas)->orderBy('nama')->get();
+        return view('dashboard.student.index', [
+            'active' => 'Manajemen',
+            'students' => $students,
+            'kelas' => Kelas::orderBy('nama')->get(),
+            'selected_kelas' => $kelas,
         ]);
     }
     /**

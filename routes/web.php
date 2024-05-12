@@ -42,4 +42,5 @@ Route::middleware('auth')
         Route::get('/report-student', [StudentController::class, 'report']);
         Route::get('/report-fault', [FaultController::class, 'report']);
         Route::get('/report-archive', [ArchiveController::class, 'report']);
+        Route::get('/student/select/{kelas}', [StudentController::class, 'selectByKelas']);
     });
