@@ -7,7 +7,7 @@
             <div class="container-xl">
                 <div class="row g-3 mb-4 align-items-center justify-content-between">
                     <div class="col-auto">
-                        <h1 class="app-page-title mb-0">Manajemen Pengguna Sistem</h1>
+                        <h1 class="app-page-title mb-0">Manajemen Petugas Sistem</h1>
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -46,23 +46,22 @@
                         </div><!--//row-->
                     </div><!--//app-card-header-->
                     <div class="app-card-body p-4">
-                        <form class="row g-2" method="post" action="/dashboard/user/{{ $user->id }}">
-                            @csrf
-                            @method('put')
+                        @if (Auth::user()->role == 'Administrator')
+                            <form class="row g-2" method="post" action="/dashboard/user/{{ $user->id }}">
+                            @elseif (Auth::user()->role == 'Siswa')
+                                <form class="row g-2" method="post" action="/dashboard/profile/{{ $user->id }}">
+                        @endif
+                        @csrf
+                        @method('put')
+                        @if (Auth::user()->role == 'Administrator' || Auth::user()->role == 'Guru')
                             <div class="col-md-4 position-relative">
-                                <label for="validationCustom01" class="form-label ">Nama<span
+                                <label for="validationCustom01" class="form-label">Nama<span
                                         class="text-danger">*</span></label>
                                 <input type="text" id="validationCustom01" class="form-control" name="nama"
                                     value="{{ old('nama', $user->nama) }}" placeholder="Isi Nama Pengguna" required>
                             </div>
                             <div class="col-md-4 position-relative">
-                                <label for="validationCustom01" class="form-label">NIP<span
-                                        class="text-danger">*</span></label>
-                                <input type="text" id="validationCustom01" class="form-control" name="nip"
-                                    value="{{ old('nip', $user->nip) }}" placeholder="Isi NIP" required>
-                            </div>
-                            <div class="col-md-4 position-relative">
-                                <label for="validationCustom01" class="form-label ">Jabatan<span
+                                <label for="validationCustom01" class="form-label">Jabatan<span
                                         class="text-danger">*</span></label>
                                 <input type="text" id="validationCustom01" class="form-control" name="jabatan"
                                     value="{{ old('jabatan', $user->jabatan) }}" placeholder="Isi Jabatan" required>
@@ -90,17 +89,42 @@
                                 <label for="validationCustom01" class="form-label">Role<span
                                         class="text-danger">*</span></label>
                                 <div>
-                                    <input type="radio" id="laki-laki" name="role" value="Administrator" required>
-                                    <label for="laki-laki">Administrator</label>
+                                    <input type="radio" id="admin" name="role" value="Administrator" required
+                                        {{ $user->role == 'Administrator' ? 'checked' : '' }}>
+                                    <label for="admin">Administrator</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="perempuan" name="role" value="Guru" required>
-                                    <label for="perempuan">Guru</label>
+                                    <input type="radio" id="guru" name="role" value="Guru" required
+                                        {{ $user->role == 'Guru' ? 'checked' : '' }}>
+                                    <label for="guru">Guru</label>
                                 </div>
                             </div>
-                            <p>
-                                (Wajib terisi untuk kolom dengan tanda "<span class="text-danger">*</span>").
-                            </p>
+                        @elseif(Auth::user()->role == 'Siswa')
+                            <!-- Hanya menampilkan input password untuk siswa -->
+                            <div class="col-md-6 position-relative">
+                                <label for="validationCustom01" class="form-label">Password<span
+                                        class="text-danger">*</span></label>
+                                <div class="row">
+                                    <div class="col-10">
+                                        <input type="password" class="form-control" id="password"
+                                            placeholder="Isi Password" name="password" required>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h3><i class="bi bi-eye-slash" id="togglePassword"></i></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Otomatis menyetel role ke "Siswa" sebagai input tersembunyi -->
+                            <input type="hidden" name="role" value="Siswa">
+                            <!-- Input tersembunyi lainnya jika diperlukan untuk menyimpan data tetap -->
+                            <input type="hidden" name="nama" value="{{ $user->nama }}">
+                            <input type="hidden" name="jabatan" value="{{ $user->jabatan }}">
+                            <input type="hidden" name="email" value="{{ $user->email }}">
+                        @endif
+
+                        <p>
+                            (Wajib terisi untuk kolom dengan tanda "<span class="text-danger">*</span>").
+                        </p>
                     </div><!--//app-card-body-->
                     <div class="app-card-footer px-4 py-3">
                         <button class="btn app-btn-primary" type="submit">

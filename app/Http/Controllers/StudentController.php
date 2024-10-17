@@ -4,28 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Kelas;
+use App\Models\User;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Imports\StudentImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
+        $students = Student::with('user')->orderBy('nama', 'desc')->get(); // Memuat user terkait
+
         return view('dashboard.student.index', [
             'active' => 'Manajemen',
-            'students' => Student::orderBy('nama', 'desc')->get(),
+            'students' => $students,
             'kelas' => Kelas::orderBy('nama')->get(),
         ]);
     }
+
     public function selectByKelas($kelas)
     {
-        $students = Student::where('kelas', $kelas)->orderBy('nama')->get();
+        $students = Student::with('user')->where('kelas', $kelas)->orderBy('nama')->get(); // Memuat user terkait
+
         return view('dashboard.student.index', [
             'active' => 'Manajemen',
             'students' => $students,
@@ -33,6 +37,7 @@ class StudentController extends Controller
             'selected_kelas' => $kelas,
         ]);
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -64,14 +69,35 @@ class StudentController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreStudentRequest $request)
     {
         $validated = $request->validated();
-        Student::create($validated);
-        return redirect('/dashboard/student')->with('success', 'Siswa telah ditambahkan!');
+        $student = Student::create($validated);
+
+        $cleanName = Str::slug($student->nama, '');
+        $baseEmail = $student->id . '_' . $cleanName;
+        $email = $baseEmail . '@gmail.com';
+        $counter = 1;
+
+        // Cek keunikan email dan tambahkan angka jika diperlukan
+        while (User::where('email', $email)->exists()) {
+            $email = $baseEmail . $counter . '@gmail.com';
+            $counter++;
+        }
+
+        // Email unik ditemukan, lanjutkan membuat user baru
+        User::create([
+            'nama' => $validated['nama'],
+            'nip' => '-',
+            'jabatan' => '-',
+            'email' => $email,
+            'password' => Hash::make('12345678'),
+            'role' => 'Siswa',
+            'id_student' => $student->id, // menyertakan ID siswa
+        ]);
+
+        // Kembalikan ke halaman dengan pesan sukses
+        return redirect('/dashboard/student')->with('success', 'Siswa dan akun telah ditambahkan!');
     }
 
     /**
@@ -94,22 +120,51 @@ class StudentController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateStudentRequest $request, Student $student)
     {
         $validated = $request->validated();
+
+        // Cek dan update email jika 'nama' telah diubah
+        if ($validated['nama'] != $student->nama) {
+            $cleanName = Str::slug($validated['nama'], '');
+            $baseEmail = $student->id . '_' . $cleanName;
+            $email = $baseEmail . '@gmail.com';
+            $counter = 1;
+
+            // Cek keunikan email dan tambahkan angka jika diperlukan
+            while (User::where('email', $email)->exists()) {
+                $email = $baseEmail . $counter . '@gmail.com';
+                $counter++;
+            }
+
+            // Manually find and update the associated user record
+            $user = User::where('id_student', $student->id)->first();
+            if ($user) {
+                $user->update([
+                    'email' => $email,
+                    'nama' => $validated['nama'],
+                ]);
+            }
+        }
+
+        // Perbarui data siswa
         $student->update($validated);
+
+        // Kembalikan ke halaman dengan pesan sukses
         return redirect('/dashboard/student')->with('success', 'Siswa telah diubah!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Student $student)
     {
-        Student::destroy($student->id);
-        return redirect('/dashboard/student')->with('success', 'Siswa telah dihapus!');
+        // Menghapus user terkait
+        $user = User::where('id_student', $student->id)->first();
+        if ($user) {
+            $user->delete();
+        }
+
+        // Menghapus siswa
+        $student->delete();
+
+        return redirect('/dashboard/student')->with('success', 'Siswa dan akun terkait telah dihapus!');
     }
 }

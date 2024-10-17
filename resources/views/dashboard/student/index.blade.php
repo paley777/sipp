@@ -52,7 +52,8 @@
                                 </div>
                                 <div class="col-auto">
                                     <!-- Tombol untuk Memilih Siswa Berdasarkan Kelas -->
-                                    <a href="#" id="btn_pilih_siswa" class="btn btn-primary text-white">Cari Berdasarkan Kelas</a>
+                                    <a href="#" id="btn_pilih_siswa" class="btn btn-primary text-white">Cari
+                                        Berdasarkan Kelas</a>
                                 </div>
                             </div><!--//row-->
                         </div><!--//table-utilities-->
@@ -92,18 +93,21 @@
                                                 <th class="cell">Nama</th>
                                                 <th class="cell">Kelas</th>
                                                 <th class="cell">Jenis Kelamin</th>
+                                                <th class="cell">User Email</th> <!-- New column header -->
                                                 @if (Auth::user()->role == 'Administrator')
                                                     <th class="cell">Aksi</th>
                                                 @endif
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($students as $key => $student)
+                                            @foreach ($students as $student)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $student->nama }}</td>
                                                     <td>{{ $student->kelas }}</td>
                                                     <td>{{ $student->jenis_kelamin }}</td>
+                                                    <td>{{ $student->user ? $student->user->email : 'N/A' }}</td>
+                                                    <!-- Displaying the user's email -->
                                                     @if (Auth::user()->role == 'Administrator')
                                                         <td>
                                                             <a href="/dashboard/student/{{ $student->id }}/edit"

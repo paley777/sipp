@@ -46,6 +46,32 @@
                                     </g>
                                 </svg>{{ Auth::user()->role }}</a>
                             <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+
+                                <li> <a href="/dashboard/profile/edit" class="dropdown-item"><svg width="16px"
+                                            height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                            fill="#000000">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title></title>
+                                                <g id="Complete">
+                                                    <g id="edit">
+                                                        <g>
+                                                            <path
+                                                                d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8"
+                                                                fill="none" stroke="#000000" stroke-linecap="round"
+                                                                stroke-linejoin="round" stroke-width="2"></path>
+                                                            <polygon fill="none"
+                                                                points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8"
+                                                                stroke="#000000" stroke-linecap="round"
+                                                                stroke-linejoin="round" stroke-width="2"></polygon>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg> Ubah Kata Sandi</a></li>
+
                                 <form action="/dashboard/logout" method="post">
                                     @csrf
                                     <li><button type="submit" class="dropdown-item">
@@ -85,24 +111,28 @@
                             <span class="nav-link-text">Beranda</span>
                         </a><!--//nav-link-->
                     </li><!--//nav-item-->
-                    <li class="nav-item">
-                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link {{ $active === 'Scoreboard' ? 'active' : '' }}" href="/dashboard/scoreboard">
-                            <span class="nav-icon">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door"
-                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path
-                                            d="M7,10H9A1,1,0,0,0,9,8H7a1,1,0,0,0,0,2ZM21,4H13V3a1,1,0,0,0-2,0V4H3A1,1,0,0,0,2,5V15a3,3,0,0,0,3,3H9.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L11,19.41V21a1,1,0,0,0,2,0V19.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L14.41,18H19a3,3,0,0,0,3-3V5A1,1,0,0,0,21,4ZM20,15a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V6H20ZM7,14h6a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="nav-link-text">Scoreboard</span>
-                        </a><!--//nav-link-->
-                    </li><!--//nav-item-->
+                    @if (Auth::user()->role == 'Administrator' || Auth::user()->role == 'Guru')
+                        <li class="nav-item">
+                            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                            <a class="nav-link {{ $active === 'Scoreboard' ? 'active' : '' }}"
+                                href="/dashboard/scoreboard">
+                                <span class="nav-icon">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M7,10H9A1,1,0,0,0,9,8H7a1,1,0,0,0,0,2ZM21,4H13V3a1,1,0,0,0-2,0V4H3A1,1,0,0,0,2,5V15a3,3,0,0,0,3,3H9.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L11,19.41V21a1,1,0,0,0,2,0V19.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L14.41,18H19a3,3,0,0,0,3-3V5A1,1,0,0,0,21,4ZM20,15a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V6H20ZM7,14h6a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Scoreboard</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                    @endif
                     <li class="nav-item has-submenu">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
                         <a class="nav-link {{ $active === 'Manajemen' ? 'active' : '' }} submenu-toggle"
@@ -137,18 +167,24 @@
                                             href="/dashboard/class">Kelas</a>
                                     </li>
                                 @endif
-                                <li class="submenu-item"><a class="submenu-link" href="/dashboard/student">Siswa</a>
-                                </li>
+                                @if (Auth::user()->role == 'Administrator' || Auth::user()->role == 'Guru')
+                                    <li class="submenu-item"><a class="submenu-link"
+                                            href="/dashboard/student">Siswa</a>
+                                    </li>
+                                @endif
                                 <li class="submenu-item"><a class="submenu-link"
                                         href="/dashboard/fault">Pelanggaran</a>
                                 </li>
-                                <li class="submenu-item"><a class="submenu-link" href="/dashboard/archive">Arsip</a>
-                                </li>
+                                @if (Auth::user()->role == 'Administrator' || Auth::user()->role == 'Guru')
+                                    <li class="submenu-item"><a class="submenu-link"
+                                            href="/dashboard/archive">Arsip</a>
+                                    </li>
+                                @endif
                                 @if (Auth::user()->role == 'Administrator')
                                     <li class="submenu-item"><a class="submenu-link" href="/dashboard/rule">Peraturan
                                             Siswa</a>
                                     </li>
-                                    <li class="submenu-item"><a class="submenu-link" href="/dashboard/user">Pengguna
+                                    <li class="submenu-item"><a class="submenu-link" href="/dashboard/user">Petugas
                                             Sistem</a>
                                     </li>
                                 @endif

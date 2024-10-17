@@ -24,7 +24,6 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'nama' => 'required',
-            'nip' => 'required|unique:users,nip,' . $this->user->id . ',id',
             'email' => 'required|unique:users,email,' . $this->user->id . ',id',
             'jabatan' => 'required',
             'role' => 'required',

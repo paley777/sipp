@@ -14,6 +14,17 @@ class DashboardController extends Controller
     //Index
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user->role == 'Siswa') {
+            // Hitung jumlah pelanggaran untuk siswa yang sedang login
+            $count_fault_siswa = Fault::where('id_student', $user->id_student)->count();
+            return view('dashboard.index', [
+                'active' => 'Beranda',
+                'count_fault_siswa' => $count_fault_siswa,
+            ]);
+        }
+
         return view('dashboard.index', [
             'active' => 'Beranda',
             'count_fault' => Fault::count(),

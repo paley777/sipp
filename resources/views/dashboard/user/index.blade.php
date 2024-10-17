@@ -8,7 +8,7 @@
 
                 <div class="row g-3 mb-4 align-items-center justify-content-between">
                     <div class="col-auto">
-                        <h1 class="app-page-title mb-0">Manajemen Pengguna Sistem</h1>
+                        <h1 class="app-page-title mb-0">Manajemen Petugas Sistem</h1>
                     </div>
                     <div class="col-auto">
                         <div class="page-utilities">
@@ -58,7 +58,6 @@
                                             <tr>
                                                 <th class="cell">No.</th>
                                                 <th class="cell">Nama</th>
-                                                <th class="cell">NIP</th>
                                                 <th class="cell">Jabatan</th>
                                                 <th class="cell">E-mail</th>
                                                 <th class="cell">Role</th>
@@ -70,7 +69,6 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $user->nama }}</td>
-                                                    <td>{{ $user->nip }}</td>
                                                     <td>{{ $user->jabatan }}</td>
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ $user->role }}</td>

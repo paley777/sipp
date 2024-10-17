@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Rule;
 use App\Http\Requests\StoreFaultRequest;
 use App\Http\Requests\UpdateFaultRequest;
+use Illuminate\Support\Facades\Auth;
 
 class FaultController extends Controller
 {
@@ -15,9 +16,21 @@ class FaultController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+
+        // Jika role pengguna adalah 'Siswa', tampilkan hanya fault miliknya
+        if ($user->role == 'Siswa') {
+            $faults = Fault::where('id_student', $user->id_student)
+                ->orderBy('nama', 'desc')
+                ->get();
+        } else {
+            // Jika bukan 'Siswa', tampilkan semua fault
+            $faults = Fault::orderBy('nama', 'desc')->get();
+        }
+
         return view('dashboard.fault.index', [
             'active' => 'Manajemen',
-            'faults' => Fault::orderBy('nama', 'desc')->get(),
+            'faults' => $faults,
         ]);
     }
     /**
@@ -53,6 +66,7 @@ class FaultController extends Controller
         $validated = $request->validated();
         Fault::create([
             'nama' => $student->nama,
+            'id_student' => $validated['student_id'],
             'kelas' => $student->kelas,
             'nisn' => $validated['nisn'],
             'nama_ortu' => $validated['nama_ortu'],

@@ -30,17 +30,34 @@ Route::middleware('auth')
     ->prefix('/dashboard')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index']);
-        Route::get('/scoreboard', [DashboardController::class, 'scoreboard']);
-        Route::resource('/student', StudentController::class);
+
+        // Hanya untuk Administrator dan Guru
+        Route::get('/scoreboard', [DashboardController::class, 'scoreboard'])->middleware('role:Administrator,Guru');
+
+        // Hanya untuk Administrator
+        Route::resource('/class', KelasController::class)->middleware('role:Administrator');
+
+        // Hanya untuk Administrator dan Guru
+        Route::resource('/student', StudentController::class)->middleware('role:Administrator,Guru');
+        Route::post('/student/import', [StudentController::class, 'import'])->middleware('role:Administrator');
+
+        // Hanya untuk Administrator dan Guru
+        Route::resource('/archive', ArchiveController::class)->middleware('role:Administrator,Guru');
+        Route::get('/report-archive', [ArchiveController::class, 'report'])->middleware('role:Administrator');
+
+        // Hanya untuk Administrator
+        Route::resource('/rule', RuleController::class)->middleware('role:Administrator');
+
+        // Hanya untuk Administrator
+        Route::resource('/user', UserController::class)->middleware('role:Administrator');
+        Route::get('/profile/edit', [UserController::class, 'changepass'])->name('profile.edit');
+        Route::put('/profile/{user}', [UserController::class, 'store_changepass'])->name('profile.store');
+        // Hanya untuk Administrator (untuk semua laporan)
+        Route::get('/report-student', [StudentController::class, 'report'])->middleware('role:Administrator');
+        Route::get('/report-fault', [FaultController::class, 'report'])->middleware('role:Administrator');
+
+        // Route yang bisa diakses oleh semua role
         Route::resource('/fault', FaultController::class);
-        Route::resource('/archive', ArchiveController::class);
-        Route::resource('/user', UserController::class);
-        Route::resource('/rule', RuleController::class);
-        Route::resource('/class', KelasController::class);
-        Route::post('/student/import', [StudentController::class, 'import']);
-        Route::post('/logout', [DashboardController::class, 'logout']);
-        Route::get('/report-student', [StudentController::class, 'report']);
-        Route::get('/report-fault', [FaultController::class, 'report']);
-        Route::get('/report-archive', [ArchiveController::class, 'report']);
         Route::get('/student/select/{kelas}', [StudentController::class, 'selectByKelas']);
+        Route::post('/logout', [DashboardController::class, 'logout']);
     });

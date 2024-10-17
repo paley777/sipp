@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
     {
         return view('dashboard.user.index', [
             'active' => 'Manajemen',
-            'users' => User::orderBy('nama', 'desc')->get(),
+            'users' => User::where('role', 'Administrator')->orWhere('role', 'Guru')->orderBy('nama', 'desc')->get(),
         ]);
     }
 
@@ -37,7 +38,6 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required',
-            'nip' => 'required|unique:users',
             'email' => 'required|unique:users',
             'jabatan' => 'required',
             'role' => 'required',
@@ -47,6 +47,16 @@ class UserController extends Controller
         User::create($validatedData);
 
         return redirect('/dashboard/user')->with('success', 'Pengguna telah ditambahkan!');
+    }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store_changepass(UpdateUserRequest $request, User $user)
+    {
+        $validatedData = $request->validated();
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        User::where('id', $user['id'])->update($validatedData);
+        return redirect('/dashboard')->with('success', 'Kata Sandi telah diubah!');
     }
 
     /**
@@ -62,6 +72,18 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        return view('dashboard.user.edit', [
+            'active' => 'Manajemen',
+            'user' => $user,
+        ]);
+    }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function changepass()
+    {
+        $user = Auth::user();
+
         return view('dashboard.user.edit', [
             'active' => 'Manajemen',
             'user' => $user,

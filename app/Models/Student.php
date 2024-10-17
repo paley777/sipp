@@ -33,4 +33,9 @@ class Student extends Model
      * @var array<string, string>
      */
     protected $casts = [];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_student');
+    }
 }
