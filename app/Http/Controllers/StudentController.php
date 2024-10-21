@@ -167,4 +167,27 @@ class StudentController extends Controller
 
         return redirect('/dashboard/student')->with('success', 'Siswa dan akun terkait telah dihapus!');
     }
+
+    public function deleteByClass($kelas)
+    {
+        // Ambil semua siswa di kelas yang dipilih
+        $students = Student::where('kelas', $kelas)->get();
+
+        // Loop melalui semua siswa di kelas tersebut
+        foreach ($students as $student) {
+            // Cari pengguna terkait
+            $user = User::where('id_student', $student->id)->first();
+
+            // Jika pengguna ditemukan, hapus pengguna tersebut
+            if ($user) {
+                $user->delete();
+            }
+
+            // Hapus siswa dari database
+            $student->delete();
+        }
+
+        // Kirim pesan feedback ke halaman dashboard setelah penghapusan
+        return redirect('/dashboard/student')->with('success', 'Semua siswa di kelas ' . $kelas . ' dan akun terkait telah dihapus.');
+    }
 }

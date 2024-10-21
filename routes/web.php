@@ -40,6 +40,8 @@ Route::middleware('auth')
         // Hanya untuk Administrator dan Guru
         Route::resource('/student', StudentController::class)->middleware('role:Administrator,Guru');
         Route::post('/student/import', [StudentController::class, 'import'])->middleware('role:Administrator');
+        // Rute untuk menghapus semua siswa di kelas tertentu
+        Route::get('/student/delete-class/{kelas}', [StudentController::class, 'deleteByClass'])->middleware('role:Administrator');
 
         // Hanya untuk Administrator dan Guru
         Route::resource('/archive', ArchiveController::class)->middleware('role:Administrator,Guru');

@@ -55,6 +55,12 @@
                                     <a href="#" id="btn_pilih_siswa" class="btn btn-primary text-white">Cari
                                         Berdasarkan Kelas</a>
                                 </div>
+                                @if (Auth::user()->role == 'Administrator')
+                                    <div class="col-auto">
+                                        <button id="btn_hapus_siswa" class="btn btn-danger text-white">Hapus Semua Siswa di
+                                            Kelas</button>
+                                    </div>
+                                @endif
                             </div><!--//row-->
                         </div><!--//table-utilities-->
                     </div><!--//col-auto-->
@@ -234,6 +240,68 @@
                 } else {
                     // Jika tidak ada kelas yang dipilih, kembalikan ke halaman dengan semua data siswa
                     window.location.href = '/dashboard/student';
+                }
+            });
+        });
+    </script>
+
+    <!-- Modal Loading -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Mengimpor data, harap tunggu...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var importForm = document.querySelector('form[action="/dashboard/student/import"]');
+
+            // Menampilkan modal saat submit form
+            importForm.addEventListener('submit', function(event) {
+                // Mencegah form dari submit segera (untuk menampilkan modal loading dengan benar)
+                event.preventDefault();
+
+                // Tutup modal import jika masih terbuka
+                var importModal = bootstrap.Modal.getInstance(document.getElementById('importExcel'));
+                if (importModal) {
+                    importModal.hide(); // Menutup modal import
+                }
+
+                // Tampilkan modal loading
+                var loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+                loadingModal.show();
+
+                // Submit form setelah modal loading muncul
+                importForm.submit();
+
+                // Tambahkan event listener untuk beforeunload agar modal tetap tampil selama refresh
+                window.addEventListener('beforeunload', function() {
+                    loadingModal.show();
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var btnHapusSiswa = document.getElementById('btn_hapus_siswa');
+            var selectKelas = document.getElementById('select_kelas');
+
+            btnHapusSiswa.addEventListener('click', function() {
+                var kelas = selectKelas.value;
+                if (kelas) {
+                    if (confirm('Anda yakin ingin menghapus semua siswa di kelas ' + kelas + '?')) {
+                        // Redirect ke rute untuk menghapus siswa berdasarkan kelas
+                        window.location.href = '/dashboard/student/delete-class/' + kelas;
+                    }
+                } else {
+                    alert('Pilih kelas terlebih dahulu sebelum menghapus.');
                 }
             });
         });
