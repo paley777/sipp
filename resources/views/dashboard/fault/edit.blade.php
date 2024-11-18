@@ -54,13 +54,15 @@
                             <div class="col-md-12 position-relative">
                                 <label for="studentSelect" class="form-label">Siswa<span
                                         class="text-danger">*</span></label>
-                                <select id="studentSelect" class="form-control" name="student_id" required>
+                                <select id="studentSelect" class="form-control" name="student_id" required disabled>
                                     @foreach ($students as $student)
                                         <option value="{{ $student->id }}"
                                             {{ $student->nama == $fault->nama ? 'selected' : '' }}>{{ $student->nama }}
                                             | {{ $student->kelas }}</option>
                                     @endforeach
                                 </select>
+                                <input type="text" id="validationCustom01" class="form-control" name="student_id"
+                                    value="{{ $student->id }}" required hidden>
                             </div>
                             <!-- Kolom untuk NISN -->
                             <div class="col-md-6 position-relative">
